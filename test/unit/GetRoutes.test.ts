@@ -67,13 +67,11 @@ beforeAll(() => {
 });
 
 describe("Testing Get Routes", () => {
-
   it("should get all routes from 'A' to 'C' with 3 stops", () => {
     const getRoutes: GetRoutes = new GetRoutes(graph, "A", "C", 3);
 
     const routes: Route[] = getRoutes.execute();
 
-    console.log(routes);
     const res = {
       routes: [
         {
@@ -89,6 +87,45 @@ describe("Testing Get Routes", () => {
           stops: 3,
         },
       ],
+    };
+    expect(routes).toEqual(res.routes);
+  });
+
+  it("should get all routes from 'A' to 'C' without max stops", () => {
+    const getRoutes: GetRoutes = new GetRoutes(graph, "A", "C");
+
+    const routes: Route[] = getRoutes.execute();
+
+    const res = {
+      routes: [
+        {
+          route: "ABC",
+          stops: 2,
+        },
+        {
+          route: "ADC",
+          stops: 2,
+        },
+        {
+          route: "ADEBC",
+          stops: 4,
+        },
+        {
+          route: "AEBC",
+          stops: 3,
+        },
+      ],
+    };
+    expect(routes).toEqual(res.routes);
+  });
+
+  it("should get all routes from 'A' to 'A' with 2 stops", () => {
+    const getRoutes: GetRoutes = new GetRoutes(graph, "A", "A", 2);
+
+    const routes: Route[] = getRoutes.execute();
+
+    const res = {
+      routes: [],
     };
     expect(routes).toEqual(res.routes);
   });

@@ -9,7 +9,7 @@ export class GetRoutes {
     private readonly graph: Graph,
     private readonly from: string,
     private readonly to: string,
-    private readonly maxStops: number
+    private readonly maxStops: number = Infinity
   ) {}
 
   public execute(): Route[] {
