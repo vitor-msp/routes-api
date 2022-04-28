@@ -67,10 +67,10 @@ beforeAll(() => {
 });
 
 describe("Testing Get Routes", () => {
-  it("should get all routes from 'A' to 'C' with 3 stops", () => {
+  it("should return all routes with max stops", () => {
     const getRoutes: GetRoutes = new GetRoutes(graph, "A", "C", 3);
 
-    const routes: Route[] = getRoutes.execute();
+    const routes: Route[]| null = getRoutes.execute();
 
     const res = {
       routes: [
@@ -91,10 +91,10 @@ describe("Testing Get Routes", () => {
     expect(routes).toEqual(res.routes);
   });
 
-  it("should get all routes from 'A' to 'C' without max stops", () => {
+  it("should return all routes without max stops", () => {
     const getRoutes: GetRoutes = new GetRoutes(graph, "A", "C");
 
-    const routes: Route[] = getRoutes.execute();
+    const routes: Route[] | null = getRoutes.execute();
 
     const res = {
       routes: [
@@ -119,14 +119,37 @@ describe("Testing Get Routes", () => {
     expect(routes).toEqual(res.routes);
   });
 
-  it("should get all routes from 'A' to 'A' with 2 stops", () => {
-    const getRoutes: GetRoutes = new GetRoutes(graph, "A", "A", 2);
+  it("should not existents routes", () => {
+    const getRoutes: GetRoutes = new GetRoutes(graph, "A", "C", 1);
 
-    const routes: Route[] = getRoutes.execute();
+    const routes: Route[] | null = getRoutes.execute();
 
     const res = {
       routes: [],
     };
     expect(routes).toEqual(res.routes);
+  });
+
+  it("should return null for source equals target", () => {
+    const getRoutes: GetRoutes = new GetRoutes(graph, "A", "A");
+
+    const routes: Route[] | null = getRoutes.execute();
+
+    const res = null;
+    expect(routes).toEqual(res);
+  });
+
+  it("should throws error because source not present in graph", () => {
+    const res = "Source not present in graph!";
+    expect(() => {
+      new GetRoutes(graph, "Z", "A");
+    }).toThrow(res);
+  });
+
+  it("should throws error because target not present in graph", () => {
+    const res = "Target not present in graph!";
+    expect(() => {
+      new GetRoutes(graph, "A", "Z");
+    }).toThrow(res);
   });
 });

@@ -1,47 +1,71 @@
+import { CopyRoute } from "./CopyRoute";
 import { Edge } from "./Edge";
 import { Graph } from "./Graph";
 import { Route } from "./Route";
 
 export class GetRoutes {
   private routes: Route[] = [];
+  private readonly graph: Graph;
+  private readonly from: string;
+  private readonly to: string;
+  private readonly maxStops: number;
 
   constructor(
-    private readonly graph: Graph,
-    private readonly from: string,
-    private readonly to: string,
-    private readonly maxStops: number = Infinity
-  ) {}
+    graph: Graph,
+    from: string,
+    to: string,
+    maxStops: number = Infinity
+  ) {
+    if (
+      graph.data.findIndex(
+        ({ source, target }) => source === from || target === from
+      ) === -1
+    )
+      throw new Error("Source not present in graph!");
 
-  public execute(): Route[] {
-    const firstEdges: Edge[] = this.getEdgesFromSource();
+    if (
+      graph.data.findIndex(
+        ({ source, target }) => source === to || target === to
+      ) === -1
+    )
+      throw new Error("Target not present in graph!");
 
-    for (const edge of firstEdges) {
-      const route = new Route(edge.source);
-      route.addStop(edge.target);
-      this.getNextRoutes(route);
-    }
+    this.graph = graph;
+    this.from = from;
+    this.to = to;
+    this.maxStops = maxStops;
+  }
+
+  public execute(): Route[] | null {
+    if (this.from == this.to) return null;
+
+    const route = new Route(this.from);
+    this.getNextRoutes(route);
 
     return this.routes;
   }
 
-  private getEdgesFromSource(): Edge[] {
-    return this.graph.data.filter((edge) => edge.source === this.from);
-  }
-
   private getNextRoutes(route: Route): void {
-    this.graph.data
-      .filter((edge) => route.getLastStop() === edge.source)
-      .forEach((edge) => {
-        const newRoute: Route = Route.fromOldRoute(route);
-        newRoute.addStop(edge.target);
-        if (newRoute.getLastStop() === this.to) {
-          this.routes.push(newRoute);
-          return;
-        }
-        if (newRoute.getTotalStops() === this.maxStops) {
-          return;
-        }
-        this.getNextRoutes(newRoute);
-      });
+    const edges: Edge[] = this.graph.data.filter(
+      (edge) => route.getLastStop() === edge.source
+    );
+
+    for (const edge of edges) {
+      if (route.stopExists(edge.target)) continue;
+
+      const newRoute: Route = CopyRoute.fromOldRoute(route);
+      newRoute.addStop(edge.target);
+
+      if (newRoute.getLastStop() === this.to) {
+        this.routes.push(newRoute);
+        continue;
+      }
+
+      if (newRoute.getTotalStops() === this.maxStops) {
+        continue;
+      }
+
+      this.getNextRoutes(newRoute);
+    }
   }
 }

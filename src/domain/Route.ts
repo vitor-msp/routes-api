@@ -7,15 +7,13 @@ export class Route {
     this.stops = 0;
   }
 
-  static fromOldRoute(oldRoute: Route): Route {
-    const newRoute = new Route(oldRoute.route);
-    newRoute.stops = oldRoute.stops;
-    return newRoute;
-  }
-
   addStop(stop: string): void {
     this.route += stop;
     this.stops++;
+  }
+
+  setTotalStops(totalStops: number): void {
+    this.stops = totalStops;
   }
 
   getLastStop(): string {
@@ -24,5 +22,13 @@ export class Route {
 
   getTotalStops(): number {
     return this.stops;
+  }
+
+  getRoute(): string {
+    return this.route;
+  }
+
+  stopExists(stop: string): boolean {
+    return this.route.split("").includes(stop);
   }
 }
