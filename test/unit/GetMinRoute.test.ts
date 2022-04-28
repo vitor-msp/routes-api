@@ -78,29 +78,30 @@ beforeAll(() => {
 });
 
 describe("Testing Get Min Route", () => {
-  // it("should return min route", () => {
-  //   const getMinRoute = new GetMinRoute(graph, "A", "C");
+  it("should return min route", () => {
+    const getMinRoute = new GetMinRoute(graph, "A", "C");
 
-  //   const path: Path | number = getMinRoute.execute();
+    const path: Path | number = getMinRoute.execute();
 
-  //   const res = {
-  //     distance: 8,
-  //     path: ["A", "B", "C"],
-  //   };
-  //   expect(path).toEqual(res);
-  // });
+    const res = {
+      distance: 8,
+      path: ["A", "B", "C"],
+    };
+    expect(path).toEqual(res);
+  });
 
-  // it("should return 0 for source equals target", () => {
-  //   const getMinRoute = new GetMinRoute(graph, "A", "A");
+  it("should return 0 for source equals target", () => {
+    const getMinRoute = new GetMinRoute(graph, "A", "A");
 
-  //   const path: Path | number = getMinRoute.execute();
+    const path: Path | number = getMinRoute.execute();
 
-  //   const res = 0;
-  //   expect(path).toEqual(res);
-  // });
+    const res = 0;
+    expect(path).toEqual(res);
+  });
 
   it("should return -1 for inexistent routes", () => {
-    const getMinRoute = new GetMinRoute(graph, "A", "F");
+    const graph = new Graph([new Edge("A", "B", 1), new Edge("B", "C", 1)]);
+    const getMinRoute = new GetMinRoute(graph, "B", "A");
 
     const path: Path | number = getMinRoute.execute();
 
