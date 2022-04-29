@@ -6,9 +6,9 @@ export class PostGraphController {
   constructor(private readonly postGraphUseCase: PostGraphUseCase) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
-    const { data } = req.body;
-
     try {
+      const { data } = req.body;
+      
       const graph: IGraph = await this.postGraphUseCase.execute({data});
 
       return res.status(201).send(graph);

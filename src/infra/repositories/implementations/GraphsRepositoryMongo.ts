@@ -18,6 +18,14 @@ export class GraphsRepositoryMongo implements IGraphsRepository {
       data,
     };
   }
+
+  async findById(id: number): Promise<IGraph | null> {
+    const graph: IGraph | null = await GraphModel.findOne({ id });
+
+    if (!graph) return null;
+
+    return { id: graph.id, data: graph.data };
+  }
 }
 //   async findByHostname(hostname: string): Promise<IComputer | undefined> {
 //     const computerEnt: IComputer | null = await ComputerModel.findOne({
