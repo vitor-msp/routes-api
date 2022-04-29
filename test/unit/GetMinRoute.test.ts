@@ -1,9 +1,7 @@
 import { Edge } from "../../src/domain/Edge";
 import { GetMinRoute } from "../../src/domain/GetMinRoute";
-import { GetRoutes } from "../../src/domain/GetRoutes";
 import { Graph } from "../../src/domain/Graph";
 import { Path } from "../../src/domain/Path";
-import { Route } from "../../src/domain/Route";
 
 const json = {
   data: [

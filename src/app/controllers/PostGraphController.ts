@@ -1,0 +1,21 @@
+import { Request, Response } from "express";
+import { IGraph } from "../../interfaces/IGraph";
+import { PostGraphUseCase } from "../useCases/postGraph/PostGraphUseCase";
+
+export class PostGraphController {
+  constructor(private readonly postGraphUseCase: PostGraphUseCase) {}
+
+  async handle(req: Request, res: Response): Promise<Response> {
+    const { data } = req.body;
+
+    try {
+      const graph: IGraph = await this.postGraphUseCase.execute({data});
+
+      return res.status(201).send(graph);
+    } catch (error: any) {
+      return res.status(400).json({
+        message: error?.message || `Unexpected error!`,
+      });
+    }
+  }
+}
