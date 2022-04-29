@@ -1,9 +1,10 @@
 import express from "express";
+import mongoose from "mongoose";
 import request from "supertest";
 import { App } from "../../src/app";
 import { GraphModel } from "../../src/infra/database/schemas/GraphSchema";
 
-let app: express.Application;
+let app: express.Application | null;
 beforeAll(async () => {
   app = new App().express;
   await GraphModel.deleteMany();
@@ -139,6 +140,25 @@ describe("Post graph use case", () => {
     expect(res.body).toEqual(resBody);
   });
 
-  //   it("should return bad request", async () => {
-  //   });
+  it("should return bad request because a parameter is missing", async () => {
+    const reqBody = {
+      data: [
+        {
+          source: "A",
+          target: "B",
+        },
+      ],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/graph")
+      .send(reqBody);
+
+    expect(res.statusCode).toEqual(400);
+  });
+});
+
+afterAll(() => {
+  mongoose.disconnect();
+  app = null;
 });
