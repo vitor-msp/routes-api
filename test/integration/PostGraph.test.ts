@@ -11,7 +11,7 @@ beforeAll(async () => {
 });
 
 describe("Post graph use case", () => {
-  it("should post graph and return status 201", async () => {
+  it("should post graph and return created", async () => {
     const reqBody = {
       data: [
         {
