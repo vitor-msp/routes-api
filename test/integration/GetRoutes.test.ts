@@ -87,7 +87,87 @@ describe("Get routes use case", () => {
   //   expect(res.body).toEqual(routesRes);
   // });
 
-  it("should return routes without max stops", async () => {
+  // it("should return routes without max stops", async () => {
+  //   const graphReq = {
+  //     data: [
+  //       {
+  //         source: "A",
+  //         target: "B",
+  //         distance: 5,
+  //       },
+  //       {
+  //         source: "B",
+  //         target: "C",
+  //         distance: 4,
+  //       },
+  //       {
+  //         source: "C",
+  //         target: "D",
+  //         distance: 8,
+  //       },
+  //       {
+  //         source: "D",
+  //         target: "C",
+  //         distance: 8,
+  //       },
+  //       {
+  //         source: "D",
+  //         target: "E",
+  //         distance: 6,
+  //       },
+  //       {
+  //         source: "A",
+  //         target: "D",
+  //         distance: 5,
+  //       },
+  //       {
+  //         source: "C",
+  //         target: "E",
+  //         distance: 2,
+  //       },
+  //       {
+  //         source: "E",
+  //         target: "B",
+  //         distance: 3,
+  //       },
+  //       {
+  //         source: "A",
+  //         target: "E",
+  //         distance: 7,
+  //       },
+  //     ],
+  //   };
+  //   await request(app).post("/graph").send(graphReq);
+
+  //   const res: request.Response = await request(app)
+  //     .post(`/routes/${1}/from/A/to/C`)
+  //     .send();
+
+  //   const routesRes = {
+  //     routes: [
+  //       {
+  //         route: "ABC",
+  //         stops: 2,
+  //       },
+  //       {
+  //         route: "ADC",
+  //         stops: 2,
+  //       },
+  //       {
+  //         route: "ADEBC",
+  //         stops: 4,
+  //       },
+  //       {
+  //         route: "AEBC",
+  //         stops: 3,
+  //       },
+  //     ],
+  //   };
+  //   expect(res.statusCode).toEqual(200);
+  //   expect(res.body).toEqual(routesRes);
+  // });
+
+  it("should return empty routes for town1 equals town2", async () => {
     const graphReq = {
       data: [
         {
@@ -140,30 +220,12 @@ describe("Get routes use case", () => {
     await request(app).post("/graph").send(graphReq);
 
     const res: request.Response = await request(app)
-      .post(`/routes/${1}/from/A/to/C`)
+      .post(`/routes/${1}/from/A/to/A`)
       .send();
 
     const routesRes = {
-      routes: [
-        {
-          route: "ABC",
-          stops: 2,
-        },
-        {
-          route: "ADC",
-          stops: 2,
-        },
-        {
-          route: "ADEBC",
-          stops: 4,
-        },
-        {
-          route: "AEBC",
-          stops: 3,
-        },
-      ],
+      routes: [],
     };
-    console.log(res.body)
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual(routesRes);
   });
@@ -174,7 +236,6 @@ afterAll(() => {
   app = null;
 });
 
-// should return empty routes for from equals to
 // should return empty routes
 // should return not found for graph not save
 // should return bad request for invalid parameters
