@@ -17,7 +17,7 @@ export default {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-// collectCoverage: true,
+collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: ["src/**", "!src/**/I*.ts", "!src/server.ts"],
@@ -154,8 +154,8 @@ export default {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    "**/test/integration/GetRoutes.test.ts?(x)",
-    // "**/test/**/*.test.ts?(x)",
+    // "**/test/integration/GetRoutes.test.ts?(x)",
+    "**/test/**/*.test.ts?(x)",
     // "**/?(*.)+(spec|test).[tj]s?(x)"
   ],
 

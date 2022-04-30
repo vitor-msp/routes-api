@@ -4,12 +4,12 @@ import { Graph } from "../../../domain/Graph";
 import { Route } from "../../../domain/Route";
 import { IGraphsRepository } from "../../../infra/repositories/IGraphsRepository";
 import { IGraph } from "../../../interfaces/IGraph";
-import { GetRoutesDTO } from "./GetRoutesDTO";
+import { IGetRoutesDTO } from "./IGetRoutesDTO";
 
 export class GetRoutesUseCase {
   constructor(private readonly graphsRepository: IGraphsRepository) {}
 
-  async execute(getRoutesDTO: GetRoutesDTO): Promise<Route[] | null> {
+  async execute(getRoutesDTO: IGetRoutesDTO): Promise<Route[] | null> {
     const { graphId, from, to } = getRoutesDTO;
 
     const graphEnt: IGraph | null = await this.graphsRepository.findById(
