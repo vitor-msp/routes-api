@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import swaggerUi from 'swagger-ui-express'
 
+import swaggerDocs from "./swagger.json"
 import routes from "./routes";
 
 export class App {
@@ -10,6 +12,7 @@ export class App {
   constructor() {
     this.express = express();
     this.middlewares();
+    this.documentation();
     this.database();
     this.routes();
   }
@@ -17,6 +20,10 @@ export class App {
   middlewares(): void {
     this.express.use(cors());
     this.express.use(express.json());
+  }
+
+  documentation() {
+    this.express.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
   }
 
   database(): void {

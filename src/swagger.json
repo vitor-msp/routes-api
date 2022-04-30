@@ -1,0 +1,249 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "API para calcular rotas possíveis e menor distância entre duas cidades em um grafo.",
+        "version": "1.0.0",
+        "title": "API de rotas",
+        "contact": {
+            "email": "vitor7jan@gmail.com"
+        }
+    },
+    "host": "http:localhost:8080",
+    "basePath":"/",
+    "paths":{
+        "/graph":{
+            "post":{
+                "summary": "Cadastro de grafo",
+                "description": "Cadastro de grafo onde os nós são as cidades",
+                "tags": ["Graphs"],
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#components/schemas/GraphReq"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201": {
+                        "description": "Created",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#components/schemas/GraphRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/graph/{id}": {
+            "get":{
+                "summary": "Busca de grafo",
+                "description": "Busca de grafo anteriormente salvo",
+                "tags": ["Graphs"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do grafo salvo",
+                        "required": true
+                    }
+                ],
+                "responses":{
+                    "201": {
+                        "description": "Ok",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#components/schemas/GraphRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/routes/{graphId}/from/{town1}/to/{town2}": {
+            "post":{
+                "summary": "Busca de rotas",
+                "description": "Busca de rotas entre duas cidades podendo ter quantidade máxima de paradas",
+                "tags": ["Routes"],
+                "parameters": [
+                    {
+                        "name": "graphId",
+                        "in": "path",
+                        "description": "id do grafo salvo",
+                        "required": true
+                    },
+                    {
+                        "name": "town1",
+                        "in": "path",
+                        "description": "nome da cidade de origem",
+                        "required": true
+                    },
+                    {
+                        "name": "town2",
+                        "in": "path",
+                        "description": "nome da cidade de destino",
+                        "required": true
+                    },
+                    {
+                        "name": "maxStops",
+                        "in": "query",
+                        "description": "número máximo de paradas",
+                        "required": false
+                    }
+                ],
+                "responses":{
+                    "200": {
+                        "description": "Ok",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#components/schemas/Routes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/distance/{graphId}/from/{town1}/to/{town2}": {
+            "post":{
+                "summary": "Busca de mínima rota",
+                "description": "Busca de rota com menor distância entre duas cidades",
+                "tags": ["Path"],
+                "parameters": [
+                    {
+                        "name": "graphId",
+                        "in": "path",
+                        "description": "id do grafo salvo",
+                        "required": true
+                    },
+                    {
+                        "name": "town1",
+                        "in": "path",
+                        "description": "nome da cidade de origem",
+                        "required": true
+                    },
+                    {
+                        "name": "town2",
+                        "in": "path",
+                        "description": "nome da cidade de destino",
+                        "required": true
+                    }
+                ],
+                "responses":{
+                    "200": {
+                        "description": "Ok",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#components/schemas/Path"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        }
+    },
+    "components":{
+        "schemas":{
+            "Edge":{
+                "type": "object",
+                "properties":{
+                    "source": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "type": "string"
+                    },
+                    "distance": {
+                        "type": "number"
+                    }
+                }
+            },
+            "GraphReq":{
+                "type": "object",
+                "properties":{
+                    "data":{
+                        "type": "array",
+                        "items": {
+                            "$ref": "#components/schemas/Edge"
+                        }
+                    }
+                }
+            },
+            "GraphRes":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type": "number"
+                    },
+                    "data":{
+                        "type": "array",
+                        "items": {
+                            "$ref": "#components/schemas/Edge"
+                        }
+                    }
+                }
+            },
+            "Route":{
+                "type": "object",
+                "properties":{
+                    "route":{
+                        "type": "string"
+                    },
+                    "stops":{
+                        "type": "number"
+                    }
+                }
+            },
+            "Routes":{
+                "type": "array",
+                "items":{
+                    "$ref":"#components/schemas/Route"
+                }
+            },
+            "Path":{
+                "type": "object",
+                "properties":{
+                    "distance":{
+                        "type": "number"
+                    },
+                    "path":{
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
