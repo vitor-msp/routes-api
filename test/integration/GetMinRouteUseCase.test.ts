@@ -73,37 +73,38 @@ const graphReq = {
 };
 
 describe("Get min route use case", () => {
-  // it("should return min route", async () => {
-  //   await request(app).post("/graph").send(graphReq);
+  it("should return min route", async () => {
+    await request(app).post("/graph").send(graphReq);
 
-  //   const res: request.Response = await request(app)
-  //     .post(`/distance/1/from/A/to/C`)
-  //     .send();
+    const res: request.Response = await request(app)
+      .post(`/distance/1/from/A/to/C`)
+      .send();
 
-  //   const pathRes = {
-  //     distance: 8,
-  //     path: ["A", "B", "C"],
-  //   };
-  //   expect(res.statusCode).toEqual(200);
-  //   expect(res.body).toEqual(pathRes);
-  // });
+    const pathRes = {
+      distance: 8,
+      path: ["A", "B", "C"],
+    };
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual(pathRes);
+  });
 
-  // it("should return 0 for town1 equals town2", async () => {
-  //   await request(app).post("/graph").send(graphReq);
+  it("should return 0 for town1 equals town2", async () => {
+    await request(app).post("/graph").send(graphReq);
 
-  //   const res: request.Response = await request(app)
-  //     .post(`/distance/1/from/A/to/A`)
-  //     .send();
+    const res: request.Response = await request(app)
+      .post(`/distance/1/from/A/to/A`)
+      .send();
 
-  //   const pathRes = {
-  //     distance: 0,
-  //     path: [],
-  //   };
-  //   expect(res.statusCode).toEqual(200);
-  //   expect(res.body).toEqual(pathRes);
-  // });
+    const pathRes = {
+      distance: 0,
+      path: [],
+    };
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual(pathRes);
+  });
 
   it("should return -1 for not existent routes", async () => {
+    await GraphModel.deleteMany();
     const graph = new Graph([new Edge("A", "B", 1), new Edge("B", "C", 1)]);
     await request(app).post("/graph").send(graph);
 
@@ -115,9 +116,54 @@ describe("Get min route use case", () => {
       distance: -1,
       path: [],
     };
-    console.log(res.body);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual(pathRes);
+  });
+
+  it("should return not found for graph not save", async () => {
+    const res: request.Response = await request(app)
+      .post(`/distance/100/from/A/to/C`)
+      .send();
+
+    expect(res.statusCode).toEqual(404);
+  });
+
+  it("should return bad request for invalid parameters", async () => {
+    await request(app).post("/graph").send(graphReq);
+
+    const res: request.Response = await request(app)
+      .post(`/distance/A/from/A/to/A`)
+      .send();
+
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it("should return bad request for source not present in graph", async () => {
+    await request(app).post("/graph").send(graphReq);
+
+    const res: request.Response = await request(app)
+      .post(`/distance/1/from/Z/to/A`)
+      .send();
+
+    const errorRes = {
+      message: `Source not present in graph!`,
+    };
+    expect(res.statusCode).toEqual(400);
+      expect(res.body).toEqual(errorRes);
+  });
+
+  it("should return bad request for target not present in graph", async () => {
+    await request(app).post("/graph").send(graphReq);
+
+    const res: request.Response = await request(app)
+      .post(`/distance/1/from/A/to/Z`)
+      .send();
+
+    const errorRes = {
+      message: `Target not present in graph!`,
+    };
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toEqual(errorRes);
   });
 });
 
@@ -125,8 +171,3 @@ afterAll(() => {
   mongoose.disconnect();
   app = null;
 });
-
-// should return not found for graph not save
-// should return bad request for invalid parameters
-// should return bad request for source not present in graph
-// should return bad request for target not present in graph
