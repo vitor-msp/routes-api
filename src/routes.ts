@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { getGraphController, getRoutesController, postGraphController } from "./main";
+import {
+  getGraphController,
+  getMinRouteController,
+  getRoutesController,
+  postGraphController,
+} from "./main";
 
 const router = Router();
 
@@ -13,6 +18,10 @@ router.get("/graph/:id", (req, res) => {
 
 router.post("/routes/:graphId/from/:town1/to/:town2", (req, res) => {
   getRoutesController.handle(req, res);
+});
+
+router.post("/distance/:graphId/from/:town1/to/:town2", (req, res) => {
+  getMinRouteController.handle(req, res);
 });
 
 export default router;

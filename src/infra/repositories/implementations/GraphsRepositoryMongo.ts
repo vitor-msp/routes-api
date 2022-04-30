@@ -27,20 +27,3 @@ export class GraphsRepositoryMongo implements IGraphsRepository {
     return { id: graph.id, data: graph.data };
   }
 }
-//   async findByHostname(hostname: string): Promise<IComputer | undefined> {
-//     const computerEnt: IComputer | null = await ComputerModel.findOne({
-//       hostname,
-//     });
-
-//     if (!computerEnt) return undefined;
-
-//     return computerEnt;
-//   }
-
-//   async add(computer: Computer): Promise<void> {
-
-//   }
-
-//   async getAll(): Promise<Computer[]> {
-//     return await ComputerModel.find();
-//   }
