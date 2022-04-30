@@ -17,7 +17,7 @@ export class GetMinRouteController {
 
       if (!path) return res.status(404).send();
 
-      return res.status(200).send(path);
+      return res.status(200).json(path);
     } catch (error: any) {
       return res.status(400).json({
         message: error?.message || `Unexpected error!`,

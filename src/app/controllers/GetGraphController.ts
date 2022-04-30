@@ -13,7 +13,7 @@ export class GetGraphController {
 
       if (!graph) return res.status(404).send();
 
-      return res.status(200).send(graph);
+      return res.status(200).json(graph);
     } catch (error: any) {
       return res.status(400).json({
         message: error?.message || `Unexpected error!`,

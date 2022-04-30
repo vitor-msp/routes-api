@@ -3,7 +3,6 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 import routes from "./routes";
-import { NextId } from "./utils/NextId";
 
 export class App {
   public express: express.Application;

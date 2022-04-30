@@ -29,7 +29,7 @@ export class GetRoutesController {
         routes: routes,
       };
 
-      return res.status(200).send(jsonRes);
+      return res.status(200).json(jsonRes);
     } catch (error: any) {
       return res.status(400).json({
         message: error?.message || `Unexpected error!`,

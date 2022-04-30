@@ -9,55 +9,55 @@ beforeAll(async () => {
   app = new App().express;
   await GraphModel.deleteMany();
 });
- const graphReq = {
-   data: [
-     {
-       source: "A",
-       target: "B",
-       distance: 5,
-     },
-     {
-       source: "B",
-       target: "C",
-       distance: 4,
-     },
-     {
-       source: "C",
-       target: "D",
-       distance: 8,
-     },
-     {
-       source: "D",
-       target: "C",
-       distance: 8,
-     },
-     {
-       source: "D",
-       target: "E",
-       distance: 6,
-     },
-     {
-       source: "A",
-       target: "D",
-       distance: 5,
-     },
-     {
-       source: "C",
-       target: "E",
-       distance: 2,
-     },
-     {
-       source: "E",
-       target: "B",
-       distance: 3,
-     },
-     {
-       source: "A",
-       target: "E",
-       distance: 7,
-     },
-   ],
- };
+const graphReq = {
+  data: [
+    {
+      source: "A",
+      target: "B",
+      distance: 5,
+    },
+    {
+      source: "B",
+      target: "C",
+      distance: 4,
+    },
+    {
+      source: "C",
+      target: "D",
+      distance: 8,
+    },
+    {
+      source: "D",
+      target: "C",
+      distance: 8,
+    },
+    {
+      source: "D",
+      target: "E",
+      distance: 6,
+    },
+    {
+      source: "A",
+      target: "D",
+      distance: 5,
+    },
+    {
+      source: "C",
+      target: "E",
+      distance: 2,
+    },
+    {
+      source: "E",
+      target: "B",
+      distance: 3,
+    },
+    {
+      source: "A",
+      target: "E",
+      distance: 7,
+    },
+  ],
+};
 
 describe("Get routes use case", () => {
   it("should return routes with max stops", async () => {
@@ -186,7 +186,7 @@ describe("Get routes use case", () => {
   });
 
   it("should return bad request for invalid parameters", async () => {
-      await request(app).post("/graph").send(graphReq);
+    await request(app).post("/graph").send(graphReq);
 
     const res: request.Response = await request(app)
       .post(`/routes/A/from/A/to/C?maxStops=1`)
@@ -206,7 +206,7 @@ describe("Get routes use case", () => {
       message: "Source not present in graph!",
     };
     expect(res.statusCode).toEqual(400);
-    expect(res.body).toEqual(errorRes)
+    expect(res.body).toEqual(errorRes);
   });
 
   it("should return bad request for target not present in graph", async () => {
@@ -224,7 +224,8 @@ describe("Get routes use case", () => {
   });
 });
 
-afterAll(() => {
+afterAll(async () => {
+  await GraphModel.deleteMany();
   mongoose.disconnect();
   app = null;
 });

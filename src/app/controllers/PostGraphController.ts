@@ -7,11 +7,11 @@ export class PostGraphController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { data } = req.body;
-      
-      const graph: IGraph = await this.postGraphUseCase.execute({data});
+      const { data }: IGraph = req.body;
 
-      return res.status(201).send(graph);
+      const graph: IGraph = await this.postGraphUseCase.execute({ data });
+
+      return res.status(201).json(graph);
     } catch (error: any) {
       return res.status(400).json({
         message: error?.message || `Unexpected error!`,

@@ -149,7 +149,7 @@ describe("Get min route use case", () => {
       message: `Source not present in graph!`,
     };
     expect(res.statusCode).toEqual(400);
-      expect(res.body).toEqual(errorRes);
+    expect(res.body).toEqual(errorRes);
   });
 
   it("should return bad request for target not present in graph", async () => {
@@ -167,7 +167,8 @@ describe("Get min route use case", () => {
   });
 });
 
-afterAll(() => {
+afterAll(async () => {
+  await GraphModel.deleteMany();
   mongoose.disconnect();
   app = null;
 });

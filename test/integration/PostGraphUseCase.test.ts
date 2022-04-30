@@ -158,7 +158,8 @@ describe("Post graph use case", () => {
   });
 });
 
-afterAll(() => {
+afterAll(async () => {
+  await GraphModel.deleteMany();
   mongoose.disconnect();
   app = null;
 });
