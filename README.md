@@ -28,7 +28,7 @@ cd desafio-dev-jr-pl
 Obs.1: a porta 8080 da sua máquina deve estar liberada
 
 ```
-docker-compose up -d
+sudo docker-compose up -d
 ```
 
 ## Testes e Considerações

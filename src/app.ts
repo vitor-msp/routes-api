@@ -40,7 +40,7 @@ export class App {
 
   database(): void {
     mongoose.connect(
-      "mongodb://mongo:27017/desafio-dev-jr-pl",
+      "mongodb://localhost:27017/desafio-dev-jr-pl",
       {
         // useNewUrlParser: true
       },
