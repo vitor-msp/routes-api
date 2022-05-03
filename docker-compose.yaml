@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    # se for necessário armazenar o contéudo do banco de dados,
+    # basta descomentar as próximas 2 linhas (o contéudo será salvo na pasta data em seu pc)
+    volumes:
+      - ./data:/data/db
+
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - mongo

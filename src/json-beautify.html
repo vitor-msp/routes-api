@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Json Beautify</title>
+    <style>
+        .css {
+            text-align: center;
+            font-size: xx-large;
+        }
+        button {
+            font-size: x-large;
+        }
+    </style>
+</head>
+<body>
+    <div class="css">
+        <label for="raw">Paste here your Json file:</label>
+        <br/>
+        <textarea id="raw" cols="100" rows="20"></textarea>
+        <br/>
+        <button type="button" onclick="beautify()">Beautify</button>
+        <script>
+            const beautify = () => {
+                // removal of zero width space character
+                const json = document.getElementById("raw").value.replaceAll("\u200b", "");
+                // copy json to clipboard
+                navigator.clipboard.writeText(json);
+                alert("Pretty json copied to clipboard!")
+            }
+        </script>
+    </div>
+</body>
+</html>

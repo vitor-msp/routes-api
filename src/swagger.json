@@ -8,7 +8,7 @@
             "email": "vitor7jan@gmail.com"
         }
     },
-    "host": "http:localhost:8080",
+    "host": "http://app:8080",
     "basePath":"/",
     "paths":{
         "/graph":{
