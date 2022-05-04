@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import swaggerUi from 'swagger-ui-express'
+import swaggerUi from "swagger-ui-express";
 import path from "path";
 
-import swaggerDocs from "./swagger.json"
+import swaggerDocs from "./swagger.json";
 import routes from "./routes";
 
 export class App {
@@ -35,19 +35,16 @@ export class App {
   jsonBeautify() {
     this.express.get("/json-beautify", (_req, res) => {
       res.sendFile(path.join(__dirname, "/json-beautify.html"));
-    })
+    });
   }
 
-  database(): void {
-    mongoose.connect(
-      "mongodb://localhost:27017/desafio-dev-jr-pl",
-      {
-        // useNewUrlParser: true
-      },
-      () => {
-        console.log("Connected to MongoDB!");
-      }
-    );
+  async database(): Promise<void> {
+    try {
+      await mongoose.connect("mongodb://localhost:27017/desafio-dev-jr-pl");
+      console.log("Connected to MongoDB!");
+    } catch (error) {
+      console.log("Error to connect to MongoDB!");
+    }
   }
 
   routes(): void {
