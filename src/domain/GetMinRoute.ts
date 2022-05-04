@@ -17,13 +17,19 @@ export class GetMinRoute {
   }
 
   execute(): Path | number {
-    let skipRoute;
-
     if (!this.routes) return 0;
 
     if (this.routes.length === 0) return -1;
 
-    for (const route of this.routes) {
+    this.calculate();
+
+    return this.minRoute;
+  }
+
+  private calculate(): void {
+    let skipRoute;
+
+    for (const route of this.routes!) {
       skipRoute = false;
       const path = new Path();
       path.setPath(route.getRoute());
@@ -53,7 +59,5 @@ export class GetMinRoute {
 
       if (!skipRoute) this.minRoute = path;
     }
-
-    return this.minRoute;
   }
 }
