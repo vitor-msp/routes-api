@@ -16,6 +16,16 @@ export class GetRoutes {
     to: string,
     maxStops: number = Infinity
   ) {
+
+    this.validateData(graph, from, to);
+
+    this.graph = graph;
+    this.from = from;
+    this.to = to;
+    this.maxStops = maxStops;
+  }
+
+  private validateData(graph: Graph, from: string, to: string): void {
     if (
       graph.data.findIndex(
         ({ source, target }) => source === from || target === from
@@ -29,11 +39,6 @@ export class GetRoutes {
       ) === -1
     )
       throw new Error("Target not present in graph!");
-
-    this.graph = graph;
-    this.from = from;
-    this.to = to;
-    this.maxStops = maxStops;
   }
 
   public execute(): Route[] | null {
