@@ -28,6 +28,7 @@ export class Route {
     return this.route;
   }
 
+  // verifica se nó já existe nesta rota
   stopExists(stop: string): boolean {
     return this.route.split("").includes(stop);
   }

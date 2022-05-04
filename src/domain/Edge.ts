@@ -12,6 +12,7 @@ export class Edge {
     this.distance = distance;
   }
 
+  // valida que source e target sejam diferentes
   private validateData(source: string, target: string): boolean {
     return !(source === target);
   }

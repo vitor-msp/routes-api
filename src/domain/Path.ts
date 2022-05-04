@@ -7,6 +7,7 @@ export class Path {
     this.path = [];
   }
 
+  // os nós da rota são distribuidos em uma lista
   setPath(pathString: string): void {
     this.path = pathString.split("");
   }

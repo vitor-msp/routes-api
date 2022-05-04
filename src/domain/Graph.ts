@@ -11,6 +11,7 @@ export class Graph {
     this.id = id ?? undefined;
   }
 
+  // valida a não existência de trechos (Edges) duplicados
   private validateData(data: Edge[]): boolean {
     for (let i = 0; i < data.length - 1; i++) {
       for (let j = i + 1; j < data.length; j++) {
