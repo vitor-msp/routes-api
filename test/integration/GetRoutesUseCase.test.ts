@@ -222,6 +222,20 @@ describe("Get routes use case", () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body).toEqual(errorRes);
   });
+
+  it("should return empty with max stops equals zero", async () => {
+    await request(app).post("/graph").send(graphReq);
+
+    const res: request.Response = await request(app)
+      .post(`/routes/1/from/A/to/C?maxStops=0`)
+      .send();
+
+    const routesRes = {
+      routes: [],
+    };
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual(routesRes);
+  });
 });
 
 afterAll(async () => {
