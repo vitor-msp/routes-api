@@ -8,8 +8,8 @@ services:
     restart: always
     # se for necessário armazenar o contéudo do banco de dados,
     # basta descomentar as próximas 2 linhas (o contéudo será salvo na pasta data em seu pc)
-    volumes:
-      - ./data:/data/db
+    # volumes:
+    #   - ./data:/data/db
 
   app:
     container_name: app
