@@ -156,6 +156,26 @@ describe("Post graph use case", () => {
 
     expect(res.statusCode).toEqual(400);
   });
+
+  it("should return bad request because exists invalid edge (source = target)", async () => {
+    const reqBody = {
+      data: [
+        {
+          source: "A",
+          target: "A",
+          distance: 5,
+        },
+      ],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/graph")
+      .send(reqBody);
+
+    const errorRes = "Source cannot be equals target!";
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual(errorRes);
+  });
 });
 
 afterAll(async () => {
