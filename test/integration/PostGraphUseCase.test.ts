@@ -176,6 +176,31 @@ describe("Post graph use case", () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual(errorRes);
   });
+
+  it("should return bad request because exists duplicated edge in graph", async () => {
+    const reqBody = {
+      data: [
+        {
+          source: "A",
+          target: "B",
+          distance: 5,
+        },
+        {
+          source: "A",
+          target: "B",
+          distance: 5,
+        },
+      ],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/graph")
+      .send(reqBody);
+
+    const errorRes = "Duplicated edges!";
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual(errorRes);
+  });
 });
 
 afterAll(async () => {
