@@ -40,7 +40,7 @@ export class App {
 
   async database(): Promise<void> {
     try {
-      await mongoose.connect("mongodb://localhost:27017/desafio-dev-jr-pl");
+      await mongoose.connect("mongodb://mongo:27017/desafio-dev-jr-pl");
       console.log("Connected to MongoDB!");
     } catch (error) {
       console.log("Error to connect to MongoDB!");
