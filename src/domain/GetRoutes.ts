@@ -42,7 +42,7 @@ export class GetRoutes {
   }
 
   public execute(): Route[] | null {
-    if (this.from == this.to) return null;
+    if (this.from == this.to || this.maxStops === 0) return null;
 
     const route = new Route(this.from);
     this.getNextRoutes(route);
