@@ -28,14 +28,14 @@ export class GetRoutes {
   // valida a existência de source e target no graph informado
   private validateData(graph: Graph, from: string, to: string): void {
     if (
-      graph.data.findIndex(
+      graph.edges.findIndex(
         ({ source, target }) => source === from || target === from
       ) === -1
     )
       throw new Error("Source not present in graph!");
 
     if (
-      graph.data.findIndex(
+      graph.edges.findIndex(
         ({ source, target }) => source === to || target === to
       ) === -1
     )
@@ -56,7 +56,7 @@ export class GetRoutes {
   // a partir de uma rota recebida, busca novas paradas que podem gerar novas rotas
   private getNextRoutes(route: Route): void {
     // busca todos os novos trechos (Edges) que começam na útlima parada da rota recebida
-    const edges: Edge[] = this.graph.data.filter(
+    const edges: Edge[] = this.graph.edges.filter(
       (edge) => route.getLastStop() === edge.source
     );
 

@@ -48,7 +48,7 @@ export class GetMinRoute {
       // percorre os nós da rota
       for (let i = 0; i < stops.length - 1; i++) {
         // busca o trecho (Edge) que começa neste nó e vai até o próximo
-        const edge: Edge | undefined = this.graph.data
+        const edge: Edge | undefined = this.graph.edges
           .filter(
             ({ source, target }) =>
               source === stops[i] && target === stops[i + 1]

@@ -4,7 +4,7 @@ export class Edge {
   public readonly distance: number;
 
   constructor(source: string, target: string, distance: number) {
-    if (!this.validateData(source, target))
+    if (this.sourceTargetIsInvalid(source, target))
       throw new Error("Source cannot be equals target!");
 
     this.source = source;
@@ -12,8 +12,7 @@ export class Edge {
     this.distance = distance;
   }
 
-  // valida que source e target sejam diferentes
-  private validateData(source: string, target: string): boolean {
-    return !(source === target);
+  private sourceTargetIsInvalid(source: string, target: string): boolean {
+    return source === target;
   }
 }
