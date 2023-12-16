@@ -15,72 +15,86 @@ export class GetRoutes {
     to: string,
     maxStops: number = Infinity
   ) {
-
-    this.validateData(graph, from, to);
-
+    this.validateInput(graph, from, to);
     this.graph = graph;
     this.from = from;
     this.to = to;
     this.maxStops = maxStops;
   }
 
-  // valida a existência de source e target no graph informado
-  private validateData(graph: Graph, from: string, to: string): void {
-    if (
-      graph.edges.findIndex(
-        ({ source, target }) => source === from || target === from
-      ) === -1
-    )
+  private validateInput(graph: Graph, from: string, to: string): void {
+    if (this.sourceNotExistsInGraph(graph, from))
       throw new Error("Source not present in graph!");
-
-    if (
-      graph.edges.findIndex(
-        ({ source, target }) => source === to || target === to
-      ) === -1
-    )
+    if (this.targetNotExistsInGraph(graph, to))
       throw new Error("Target not present in graph!");
   }
 
-  // orquestra da obtenção das rotas
-  public execute(): Route[] | null {
-    if (this.from == this.to || this.maxStops === 0) return null;
+  private sourceNotExistsInGraph(graph: Graph, from: string): boolean {
+    return (
+      graph.edges.findIndex(
+        ({ source, target }) => source === from || target === from
+      ) === -1
+    );
+  }
 
-    // cria uma rota partindo do source
+  private targetNotExistsInGraph(graph: Graph, to: string): boolean {
+    return (
+      graph.edges.findIndex(
+        ({ source, target }) => source === to || target === to
+      ) === -1
+    );
+  }
+
+  public execute(): Route[] | null {
+    if (this.noneRoute()) return null;
     const route = new Route(this.from);
     this.getNextRoutes(route);
-
     return this.routes;
   }
 
-  // a partir de uma rota recebida, busca novas paradas que podem gerar novas rotas
+  private noneRoute(): boolean {
+    return this.from == this.to || this.maxStops === 0;
+  }
+
   private getNextRoutes(route: Route): void {
-    // busca todos os novos trechos (Edges) que começam na útlima parada da rota recebida
-    const edges: Edge[] = this.graph.edges.filter(
+    const edges: Edge[] = this.getNextEdges(route);
+    for (const edge of edges) {
+      this.processEdge(edge, route);
+    }
+  }
+
+  private processEdge(edge: Edge, route: Route): void {
+    if (this.targetAlreadyTraveled(route, edge)) return;
+    const newRoute: Route = this.getRouteWithNewStop(route, edge);
+    if (this.targetReached(newRoute)) {
+      this.routes.push(newRoute);
+      return;
+    }
+    if (this.maxStopsReached(newRoute)) return;
+    this.getNextRoutes(newRoute);
+  }
+
+  private getNextEdges(route: Route): Edge[] {
+    return this.graph.edges.filter(
       (edge) => route.getLastStop() === edge.source
     );
+  }
 
-    for (const edge of edges) {
-      // se a nova parada deste trecho já estava na rota, então o trecho é ignorado
-      if (route.stopExists(edge.target)) continue;
+  private targetAlreadyTraveled(route: Route, edge: Edge): boolean {
+    return route.stopExists(edge.target);
+  }
 
-      // se o trecho não for ignorado, uma cópia da rota recebida é criada incluindo a nova parada
-      const newRoute: Route = Route.clone(route);
-      newRoute.addStop(edge.target);
+  private getRouteWithNewStop(route: Route, edge: Edge): Route {
+    const newRoute: Route = Route.clone(route);
+    newRoute.addStop(edge.target);
+    return newRoute;
+  }
 
-      // se esta nova parada é o destino, então esta rota é válida
-      if (newRoute.getLastStop() === this.to) {
-        this.routes.push(newRoute);
-        continue;
-      }
+  private targetReached(route: Route): boolean {
+    return route.getLastStop() === this.to;
+  }
 
-      // se a nova parada não é o destino e as paradas foram esgotadas, então esta rota é ignorada
-      if (newRoute.getTotalStops() === this.maxStops) {
-        continue;
-      }
-
-      // se o destino não foi alcançado e ainda há paradas, então esta rota é passada de forma
-      // recursiva para se obter as próximas rotas
-      this.getNextRoutes(newRoute);
-    }
+  private maxStopsReached(route: Route): boolean {
+    return route.getTotalStops() >= this.maxStops;
   }
 }
