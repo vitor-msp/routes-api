@@ -11,69 +11,72 @@ export class GetMinRoute {
 
   constructor(graph: Graph, from: string, to: string) {
     this.graph = graph;
-    // busca as rotas da origem ao destino
     this.routes = new GetRoutes(graph, from, to).execute();
-    // inicia um caminho mínimo com distância infinita
-    this.minRoute = new Path();
-    this.minRoute.addDistance(Infinity);
+    this.minRoute = new Path().addDistance(Infinity);
   }
 
-  // orquestra a obtenção da mínima rota
   execute(): Path | number {
-    // caso em que origem é igual ao destino
-    if (!this.routes) return 0;
-
-    // caso em que não foram encontradas rotas
-    if (this.routes.length === 0) return -1;
-
-    // caso em que foram encontradas rotas
+    if (this.sourceAndTargetAreEqual()) return 0;
+    if (this.noneRoute()) return -1;
     this.calculate();
-
     return this.minRoute;
   }
 
-  // calcula mínima rota em uma lista
+  private sourceAndTargetAreEqual(): boolean {
+    return this.routes === null;
+  }
+
+  private noneRoute(): boolean {
+    return this.routes != null && this.routes.length === 0;
+  }
+
   private calculate(): void {
-    let skipRoute;
-
-    for (const route of this.routes!) {
-      skipRoute = false;
-      // cria uma estrutura do tipo Path a partir da rota
-      const path = new Path();
-      // os nós da rota são distribuidos em uma lista
-      path.setPath(route.getRoute());
-
-      const stops: string[] = path.getPath();
-
-      // percorre os nós da rota
-      for (let i = 0; i < stops.length - 1; i++) {
-        // busca o trecho (Edge) que começa neste nó e vai até o próximo
-        const edge: Edge | undefined = this.graph.edges
-          .filter(
-            ({ source, target }) =>
-              source === stops[i] && target === stops[i + 1]
-          )
-          .at(0);
-
-        // caso não encontre o trecho (Edge), esta rota será pulada
-        if (!edge) {
-          skipRoute = true;
-          break;
-        }
-
-        // caso encontre o trecho, sua distância é adicionada ao caminho
-        path.addDistance(edge.distance);
-
-        // caso a distância já percorrida ultrapasse o total da atual rota mínima,
-        // então esta rota não é a mínima e será pulada
-        if (path.getTotalDistance() >= this.minRoute.getTotalDistance()) {
-          skipRoute = true;
-          break;
-        }
-      }
-
-      // caso esta rota não tenha sido pulada, então ela é a nova rota mínima
-      if (!skipRoute) this.minRoute = path;
+    if (!this.routes) return;
+    for (const route of this.routes) {
+      this.processRoute(route);
     }
+  }
+
+  private processRoute(route: Route): void {
+    let foundedNewMinRoute = false;
+    const path = this.getPathFromRoute(route);
+    const stops: string[] = path.getPath();
+    for (let stopIndex = 0; stopIndex < stops.length - 1; stopIndex++) {
+      foundedNewMinRoute = this.processStop(stops, stopIndex, path);
+    }
+    if (foundedNewMinRoute) this.minRoute = path;
+  }
+
+  private getPathFromRoute(route: Route): Path {
+    const path = new Path();
+    path.setPath(route.getRoute());
+    return path;
+  }
+
+  private processStop(stops: string[], stopIndex: number, path: Path): boolean {
+    const FOUNDED_NEW_MIN_ROUTE = true;
+    const NOT_FOUNDED_NEW_MIN_ROUTE = false;
+
+    const currentStop = stops[stopIndex];
+    const nextStop = stops[stopIndex + 1];
+    const edge = this.getEdgeFromStops(currentStop, nextStop);
+    if (!edge) return NOT_FOUNDED_NEW_MIN_ROUTE;
+
+    path.addDistance(edge.distance);
+    if (this.routeIsMin(path)) return FOUNDED_NEW_MIN_ROUTE;
+    return NOT_FOUNDED_NEW_MIN_ROUTE;
+  }
+
+  private getEdgeFromStops(
+    currentStop: string,
+    nextStop: string
+  ): Edge | undefined {
+    return this.graph.edges.find(
+      ({ source, target }) => source === currentStop && target === nextStop
+    );
+  }
+
+  private routeIsMin(path: Path): boolean {
+    return path.getTotalDistance() < this.minRoute.getTotalDistance();
   }
 }

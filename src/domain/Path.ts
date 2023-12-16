@@ -15,8 +15,9 @@ export class Path {
     return this.path;
   }
 
-  addDistance(newDistance: number): void {
+  addDistance(newDistance: number): Path {
     this.distance += newDistance;
+    return this;
   }
 
   getTotalDistance(): number {
