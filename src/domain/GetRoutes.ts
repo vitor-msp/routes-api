@@ -1,4 +1,3 @@
-import { CopyRoute } from "./CopyRoute";
 import { Edge } from "./Edge";
 import { Graph } from "./Graph";
 import { Route } from "./Route";
@@ -65,7 +64,7 @@ export class GetRoutes {
       if (route.stopExists(edge.target)) continue;
 
       // se o trecho não for ignorado, uma cópia da rota recebida é criada incluindo a nova parada
-      const newRoute: Route = CopyRoute.fromOldRoute(route);
+      const newRoute: Route = Route.clone(route);
       newRoute.addStop(edge.target);
 
       // se esta nova parada é o destino, então esta rota é válida

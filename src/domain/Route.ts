@@ -12,7 +12,7 @@ export class Route {
     this.stops++;
   }
 
-  setTotalStops(totalStops: number): void {
+  private setTotalStops(totalStops: number): void {
     this.stops = totalStops;
   }
 
@@ -28,8 +28,13 @@ export class Route {
     return this.route;
   }
 
-  // verifica se nó já existe nesta rota
   stopExists(stop: string): boolean {
     return this.route.split("").includes(stop);
+  }
+
+  static clone(oldRoute: Route): Route {
+    const newRoute = new Route(oldRoute.getRoute());
+    newRoute.setTotalStops(oldRoute.getTotalStops());
+    return newRoute;
   }
 }
