@@ -1,4 +1,6 @@
-export class Route {
+import { IClonable } from "./IClonable";
+
+export class Route implements IClonable {
   private route: string;
   private stops: number;
 
@@ -32,9 +34,9 @@ export class Route {
     return this.route.split("").includes(stop);
   }
 
-  static clone(oldRoute: Route): Route {
-    const newRoute = new Route(oldRoute.getRoute());
-    newRoute.setTotalStops(oldRoute.getTotalStops());
+  clone(): Route {
+    const newRoute = new Route(this.getRoute());
+    newRoute.setTotalStops(this.getTotalStops());
     return newRoute;
   }
 }

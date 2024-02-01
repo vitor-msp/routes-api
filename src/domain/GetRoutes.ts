@@ -85,7 +85,7 @@ export class GetRoutes {
   }
 
   private getRouteWithNewStop(route: Route, edge: Edge): Route {
-    const newRoute: Route = Route.clone(route);
+    const newRoute: Route = route.clone();
     newRoute.addStop(edge.target);
     return newRoute;
   }
