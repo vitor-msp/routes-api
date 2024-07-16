@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  mongo-test:
+    image: mongo:7.0
+    container_name: mongo-test
+    hostname: mongo-test
+    ports:
+      - 27017:27017

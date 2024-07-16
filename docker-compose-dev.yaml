@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-
   mongo1: &mongo
     image: mongo:7.0
     container_name: mongo1
@@ -13,9 +12,16 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - ./mongo/rs_keyfile:/etc/mongodb/pki/keyfile
-      - ./mongo/data/mongo1-data/db:/data/db
-      - ./mongo/data/mongo1-data/configdb:/data/configdb
-    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/etc/mongodb/pki/keyfile"]
+    command:
+      [
+        "--replSet",
+        "rs0",
+        "--bind_ip_all",
+        "--port",
+        "27017",
+        "--keyFile",
+        "/etc/mongodb/pki/keyfile",
+      ]
 
   mongo2:
     <<: *mongo
@@ -23,13 +29,12 @@ services:
     hostname: mongo2
     volumes:
       - ./mongo/rs_keyfile:/etc/mongodb/pki/keyfile
-      - ./mongo/data/mongo2-data/db:/data/db
-      - ./mongo/data/mongo2-data/configdb:/data/configdb
 
   app:
+    image: node:18.17
     container_name: app
-    restart: always
-    build: .
+    volumes:
+      - ./:/app
     ports:
       - "8080:8080"
     links:
@@ -38,3 +43,5 @@ services:
     depends_on:
       - mongo1
       - mongo2
+    tty: true
+    stdin_open: true
