@@ -4,7 +4,7 @@ import { Graph } from "../../src/domain/Graph";
 describe("Testing Graph", () => {
   it("should throws error because edge is duplicated", () => {
     const graph = {
-      data: [
+      edges: [
         {
           source: "A",
           target: "B",
@@ -19,7 +19,7 @@ describe("Testing Graph", () => {
     };
 
     const edges: Edge[] = [];
-    for (let item of graph.data) {
+    for (let item of graph.edges) {
       const { source, target, distance } = item;
       edges.push(new Edge(source, target, distance));
     }

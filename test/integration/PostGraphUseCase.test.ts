@@ -4,16 +4,17 @@ import request from "supertest";
 import { App } from "../../src/app";
 import { GraphModel } from "../../src/infra/database/schemas/GraphSchema";
 
-let app: express.Application | null;
-beforeAll(async () => {
-  app = new App().express;
-  await GraphModel.deleteMany();
-});
-
 describe("Post graph use case", () => {
+  let app: express.Application | null;
+
+  beforeAll(async () => {
+    app = (await new App().run()).express;
+    await GraphModel.deleteMany();
+  });
+
   it("should post graph and return created", async () => {
     const reqBody = {
-      data: [
+      edges: [
         {
           source: "A",
           target: "B",
@@ -78,7 +79,7 @@ describe("Post graph use case", () => {
 
     const resBody = {
       id: 1,
-      data: [
+      edges: [
         {
           source: "A",
           target: "B",
@@ -142,7 +143,7 @@ describe("Post graph use case", () => {
 
   it("should return bad request because a parameter is missing", async () => {
     const reqBody = {
-      data: [
+      edges: [
         {
           source: "A",
           target: "B",
@@ -159,7 +160,7 @@ describe("Post graph use case", () => {
 
   it("should return bad request because exists invalid edge (source = target)", async () => {
     const reqBody = {
-      data: [
+      edges: [
         {
           source: "A",
           target: "A",
@@ -179,7 +180,7 @@ describe("Post graph use case", () => {
 
   it("should return bad request because exists duplicated edge in graph", async () => {
     const reqBody = {
-      data: [
+      edges: [
         {
           source: "A",
           target: "B",
@@ -201,10 +202,10 @@ describe("Post graph use case", () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual(errorRes);
   });
-});
 
-afterAll(async () => {
-  await GraphModel.deleteMany();
-  mongoose.disconnect();
-  app = null;
+  afterAll(async () => {
+    await GraphModel.deleteMany();
+    await mongoose.disconnect();
+    app = null;
+  });
 });

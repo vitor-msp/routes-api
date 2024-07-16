@@ -4,7 +4,7 @@ import { Graph } from "../../src/domain/Graph";
 import { Route } from "../../src/domain/Route";
 
 const json = {
-  data: [
+  edges: [
     {
       source: "A",
       target: "B",
@@ -58,7 +58,7 @@ let graph: Graph;
 beforeAll(() => {
   const edges: Edge[] = [];
 
-  json.data.forEach((edge) => {
+  json.edges.forEach((edge) => {
     const { source, target, distance } = edge;
     edges.push(new Edge(source, target, distance));
   });

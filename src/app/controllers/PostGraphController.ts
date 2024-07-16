@@ -7,9 +7,9 @@ export class PostGraphController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { data }: IGraph = req.body;
+      const { edges }: IGraph = req.body;
 
-      const graph: IGraph = await this.postGraphUseCase.execute({ data });
+      const graph: IGraph = await this.postGraphUseCase.execute({ edges });
 
       return res.status(201).json(graph);
     } catch (error: any) {

@@ -8,14 +8,14 @@ export class GraphsRepositoryMongo implements IGraphsRepository {
   async insert(graph: Graph): Promise<IGraph> {
     const nextId = await NextId.get();
 
-    const { id, data }: IGraphModel = await GraphModel.create({
+    const { id, edges }: IGraphModel = await GraphModel.create({
       id: nextId,
-      data: graph.data,
+      edges: graph.edges,
     });
 
     return {
       id,
-      data,
+      edges,
     };
   }
 
@@ -24,6 +24,6 @@ export class GraphsRepositoryMongo implements IGraphsRepository {
 
     if (!graph) return null;
 
-    return { id: graph.id, data: graph.data };
+    return { id: graph.id, edges: graph.edges };
   }
 }

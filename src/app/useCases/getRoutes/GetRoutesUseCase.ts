@@ -20,7 +20,7 @@ export class GetRoutesUseCase {
 
     const edges: Edge[] = [];
 
-    for (const edgeEnt of graphEnt.data) {
+    for (const edgeEnt of graphEnt.edges) {
       const { source, target, distance } = edgeEnt;
       edges.push(new Edge(source, target, distance));
     }

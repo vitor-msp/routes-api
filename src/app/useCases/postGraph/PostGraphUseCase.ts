@@ -7,11 +7,9 @@ export class PostGraphUseCase {
   constructor(private readonly graphsRepository: IGraphsRepository) {}
 
   async execute(graphReq: IGraph): Promise<IGraph> {
-    const { data } = graphReq;
-
     const edges: Edge[] = [];
 
-    data.forEach(({ source, target, distance }) => {
+    graphReq.edges.forEach(({ source, target, distance }) => {
       edges.push(new Edge(source, target, distance));
     });
 

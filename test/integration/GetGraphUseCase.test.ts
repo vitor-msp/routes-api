@@ -4,15 +4,16 @@ import request from "supertest";
 import { App } from "../../src/app";
 import { GraphModel } from "../../src/infra/database/schemas/GraphSchema";
 
-let app: express.Application | null;
-beforeAll(async () => {
-  app = new App().express;
-  await GraphModel.deleteMany();
-});
-
 describe("Get graph use case", () => {
+  let app: express.Application | null;
+
+  beforeAll(async () => {
+    app = (await new App().run()).express;
+    await GraphModel.deleteMany();
+  });
+
   it("should return saved graph", async () => {
-    const data = [
+    const edges = [
       {
         source: "A",
         target: "B",
@@ -70,11 +71,11 @@ describe("Get graph use case", () => {
       },
     ];
     const graphReq = {
-      data: data,
+      edges,
     };
     const graphRes = {
       id: 1,
-      data: data,
+      edges,
     };
     await request(app).post("/graph").send(graphReq);
 
@@ -97,16 +98,14 @@ describe("Get graph use case", () => {
   });
 
   it("should return bad request because id is string", async () => {
-    const res: request.Response = await request(app)
-      .get(`/graph/id`)
-      .send();
+    const res: request.Response = await request(app).get(`/graph/id`).send();
 
     expect(res.statusCode).toEqual(400);
   });
-});
 
-afterAll(async () => {
-  await GraphModel.deleteMany();
-  mongoose.disconnect();
-  app = null;
+  afterAll(async () => {
+    await GraphModel.deleteMany();
+    await mongoose.disconnect();
+    app = null;
+  });
 });

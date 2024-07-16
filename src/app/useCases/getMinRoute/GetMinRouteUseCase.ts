@@ -20,7 +20,7 @@ export class GetMinRouteUseCase {
 
     const edges: Edge[] = [];
 
-    for (const edgeEnt of graphEnt.data) {
+    for (const edgeEnt of graphEnt.edges) {
       const { source, target, distance } = edgeEnt;
       edges.push(new Edge(source, target, distance));
     }
@@ -35,7 +35,7 @@ export class GetMinRouteUseCase {
       const pathNegCase = new Path();
       pathNegCase.addDistance(-1);
       return pathNegCase;
-    };
+    }
 
     // @ts-ignore
     return path;

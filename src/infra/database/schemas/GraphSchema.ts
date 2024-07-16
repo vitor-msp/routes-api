@@ -11,7 +11,7 @@ export const GraphSchema = new Schema({
     type: Number,
     required: true,
   },
-  data: {
+  edges: {
     type: [EdgeSchema],
     required: true,
   },

@@ -12,11 +12,15 @@ export class App {
 
   constructor() {
     this.express = express();
+  }
+
+  async run(): Promise<App> {
     this.middlewares();
     this.documentation();
     this.jsonBeautify();
-    this.database();
+    await this.database();
     this.routes();
+    return this;
   }
 
   middlewares(): void {

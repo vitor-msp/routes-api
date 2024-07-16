@@ -4,62 +4,64 @@ import request from "supertest";
 import { App } from "../../src/app";
 import { GraphModel } from "../../src/infra/database/schemas/GraphSchema";
 
-let app: express.Application | null;
-beforeAll(async () => {
-  app = new App().express;
-  await GraphModel.deleteMany();
-});
-const graphReq = {
-  data: [
-    {
-      source: "A",
-      target: "B",
-      distance: 5,
-    },
-    {
-      source: "B",
-      target: "C",
-      distance: 4,
-    },
-    {
-      source: "C",
-      target: "D",
-      distance: 8,
-    },
-    {
-      source: "D",
-      target: "C",
-      distance: 8,
-    },
-    {
-      source: "D",
-      target: "E",
-      distance: 6,
-    },
-    {
-      source: "A",
-      target: "D",
-      distance: 5,
-    },
-    {
-      source: "C",
-      target: "E",
-      distance: 2,
-    },
-    {
-      source: "E",
-      target: "B",
-      distance: 3,
-    },
-    {
-      source: "A",
-      target: "E",
-      distance: 7,
-    },
-  ],
-};
-
 describe("Get routes use case", () => {
+  let app: express.Application | null;
+
+  beforeAll(async () => {
+    app = (await new App().run()).express;
+    await GraphModel.deleteMany();
+  });
+
+  const graphReq = {
+    edges: [
+      {
+        source: "A",
+        target: "B",
+        distance: 5,
+      },
+      {
+        source: "B",
+        target: "C",
+        distance: 4,
+      },
+      {
+        source: "C",
+        target: "D",
+        distance: 8,
+      },
+      {
+        source: "D",
+        target: "C",
+        distance: 8,
+      },
+      {
+        source: "D",
+        target: "E",
+        distance: 6,
+      },
+      {
+        source: "A",
+        target: "D",
+        distance: 5,
+      },
+      {
+        source: "C",
+        target: "E",
+        distance: 2,
+      },
+      {
+        source: "E",
+        target: "B",
+        distance: 3,
+      },
+      {
+        source: "A",
+        target: "E",
+        distance: 7,
+      },
+    ],
+  };
+
   it("should return routes with max stops", async () => {
     await request(app).post("/graph").send(graphReq);
 
@@ -236,10 +238,10 @@ describe("Get routes use case", () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual(routesRes);
   });
-});
 
-afterAll(async () => {
-  await GraphModel.deleteMany();
-  mongoose.disconnect();
-  app = null;
+  afterAll(async () => {
+    await GraphModel.deleteMany();
+    await mongoose.disconnect();
+    app = null;
+  });
 });
