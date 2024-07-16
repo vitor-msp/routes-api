@@ -31,6 +31,13 @@ Obs.1: a porta 8080 da sua máquina deve estar liberada
 sudo docker-compose up -d
 ```
 
+4. Iniciar a replica set do MongoDB
+
+```
+./mongo/start-replica-set.sh <USER> <PASSWORD>
+
+```
+
 ## Testes e Considerações
 
 1. A documentação foi desenvolvida pelo [Swagger](https://swagger.io/) e se encontra disponível na rota [/api-docs](http://localhost:8080/api-docs/), onde a API poderá ser testada
