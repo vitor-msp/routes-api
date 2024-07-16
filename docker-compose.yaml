@@ -15,7 +15,7 @@ services:
       - ./mongo/rs_keyfile:/etc/mongodb/pki/keyfile
       - ./mongo/data/mongo1-data/db:/data/db
       - ./mongo/data/mongo1-data/configdb:/data/configdb
-    command: ["--replSet", $MONGO_REPLICA_SET, "--bind_ip_all", "--port", $MONGO_PORT1, "--keyFile", "/etc/mongodb/pki/keyfile"]
+    command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongodb/pki/keyfile"]
 
   mongo2:
     <<: *mongo
@@ -25,7 +25,6 @@ services:
       - ./mongo/rs_keyfile:/etc/mongodb/pki/keyfile
       - ./mongo/data/mongo2-data/db:/data/db
       - ./mongo/data/mongo2-data/configdb:/data/configdb
-    command: ["--replSet", $MONGO_REPLICA_SET, "--bind_ip_all", "--port", $MONGO_PORT2, "--keyFile", "/etc/mongodb/pki/keyfile"]
 
   app:
     container_name: app
