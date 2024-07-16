@@ -3,14 +3,20 @@ import mongoose from "mongoose";
 import request from "supertest";
 import { App } from "../../src/app";
 import { GraphModel } from "../../src/infra/database/schemas/GraphSchema";
+import dotenv from "dotenv";
+dotenv.config();
 
 describe("Get graph use case", () => {
   let app: express.Application | null;
 
   beforeAll(async () => {
-    const mongoConnectionString = "mongodb://localhost:27017/";
-    app = (await new App(mongoConnectionString, "desafio-dev-jr-pl").run())
-      .express;
+    const mongoConnectionString = `mongodb://${process.env.MONGO_TEST_HOST}`;
+    app = (
+      await new App(
+        mongoConnectionString,
+        process.env.MONGO_TEST_DB || "routes"
+      ).run()
+    ).express;
     await GraphModel.deleteMany();
   });
 
