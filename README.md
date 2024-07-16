@@ -15,26 +15,38 @@ Optei por desenvolver a API em TypeScript pelo prévio conhecimento na stack e p
 
 1. Clonar este repositório
 ```
-git clone https://gitlab.com/vitor-msp/desafio-dev-jr-pl.git
+git clone https://github.com/vitor-msp/routes-api.git
 ```
 
 2. Acessar a pasta baixada
 ```
-cd desafio-dev-jr-pl
+cd routes-api
 ```
 
-3. Executar o docker-compose
+3. Criar o arquivo .env e configurar a senha do MongoDB
+
+```
+cp .env.sample .env
+```
+
+4. Criar a chave de autenticação da replica set do MongoDB
+
+```
+sudo ./scripts/create-rs_keyfile.sh
+```
+
+5. Executar o docker-compose
 
 Obs.1: a porta 8080 da sua máquina deve estar liberada
 
 ```
-sudo docker-compose up -d
+docker-compose up -d --build
 ```
 
-4. Iniciar a replica set do MongoDB
+6. Iniciar a replica set do MongoDB
 
 ```
-./mongo/start-replica-set.sh <USER> <PASSWORD>
+./scripts/start-replica-set.sh
 
 ```
 
