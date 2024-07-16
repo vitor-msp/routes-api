@@ -6,7 +6,7 @@ import { App } from "./app";
 
   const port = process.env.PORT || 8080;
 
-  const mongoConnectionString = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@mongo1:27017,mongo2:27017?replicaSet=rs0&readPreference=${process.env.MONGO_READ_PREFERENCE}`;
+  const mongoConnectionString = process.env.MONGO_CONNECTION_STRING;
   const mongoDbName = process.env.MONGO_DB;
   if (!mongoConnectionString || !mongoDbName)
     throw new Error("MongoDB connection string not configured.");

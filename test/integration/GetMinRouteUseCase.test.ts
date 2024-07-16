@@ -12,10 +12,9 @@ describe("Get min route use case", () => {
   let app: express.Application | null;
 
   beforeAll(async () => {
-    const mongoConnectionString = `mongodb://${process.env.MONGO_TEST_HOST}:${process.env.MONGO_TEST_PORT}`;
     app = (
       await new App(
-        mongoConnectionString,
+        process.env.MONGO_TEST_CONNECTION_STRING || "",
         process.env.MONGO_TEST_DB || "routes"
       ).run()
     ).express;
