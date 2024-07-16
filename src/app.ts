@@ -10,7 +10,10 @@ import routes from "./routes";
 export class App {
   public express: express.Application;
 
-  constructor() {
+  constructor(
+    private readonly mongoConnectionString: string,
+    private readonly mongoDbName: string
+  ) {
     this.express = express();
   }
 
@@ -44,7 +47,9 @@ export class App {
 
   async database(): Promise<void> {
     try {
-      await mongoose.connect("mongodb://mongo:27017/desafio-dev-jr-pl");
+      await mongoose.connect(this.mongoConnectionString, {
+        dbName: this.mongoDbName,
+      });
       console.log("Connected to MongoDB!");
     } catch (error) {
       console.log("Error to connect to MongoDB!");

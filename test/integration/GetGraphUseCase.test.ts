@@ -8,7 +8,9 @@ describe("Get graph use case", () => {
   let app: express.Application | null;
 
   beforeAll(async () => {
-    app = (await new App().run()).express;
+    const mongoConnectionString = "mongodb://localhost:27017/";
+    app = (await new App(mongoConnectionString, "desafio-dev-jr-pl").run())
+      .express;
     await GraphModel.deleteMany();
   });
 

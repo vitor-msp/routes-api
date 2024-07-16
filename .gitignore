@@ -48,3 +48,6 @@ yarn-error.log*
 dist
 **/coverage/**
 data
+.env
+mongo/rs_keyfile
+mongo/data
