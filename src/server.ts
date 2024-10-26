@@ -4,7 +4,7 @@ import { App } from "./app";
 (async () => {
   dotnev.config();
 
-  const port = process.env.PORT || 8080;
+  const port = process.env.SERVER_PORT || 8080;
 
   const mongoConnectionString = process.env.MONGO_CONNECTION_STRING;
   const mongoDbName = process.env.MONGO_DB;
