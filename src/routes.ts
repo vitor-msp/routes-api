@@ -8,6 +8,8 @@ import {
 
 const router = Router();
 
+router.get("/healthcheck", (_req, res) => res.send("healthy"));
+
 router.post("/graph", async (req, res) => {
   await postGraphController.handle(req, res);
 });
