@@ -4,13 +4,10 @@ services:
 
   mongo1: &mongo
     image: mongo:7.0
-    container_name: mongo1
+    container_name: routes-mongo1
     hostname: mongo1
     restart: always
     env_file: .env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - ./mongo/rs_keyfile:/etc/mongodb/pki/keyfile
       - ./mongo/data/mongo1-data/db:/data/db
@@ -19,15 +16,15 @@ services:
 
   mongo2:
     <<: *mongo
-    container_name: mongo2
+    container_name: routes-mongo2
     hostname: mongo2
     volumes:
       - ./mongo/rs_keyfile:/etc/mongodb/pki/keyfile
       - ./mongo/data/mongo2-data/db:/data/db
       - ./mongo/data/mongo2-data/configdb:/data/configdb
 
-  app:
-    container_name: app
+  api:
+    container_name: routes-api
     restart: always
     build: .
     ports:
