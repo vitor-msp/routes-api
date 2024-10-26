@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import swaggerUi from "swagger-ui-express";
 import path from "path";
+import morgan from "morgan";
 
 import swaggerDocs from "./swagger.json";
 import routes from "./routes";
@@ -29,6 +30,7 @@ export class App {
   middlewares(): void {
     this.express.use(cors());
     this.express.use(express.json());
+    this.express.use(morgan("combined"));
   }
 
   documentation() {

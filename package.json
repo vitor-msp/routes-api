@@ -1,5 +1,5 @@
 {
-  "name": "desafio-dev-jr-pl",
+  "name": "routes-api",
   "version": "1.0.0",
   "description": "Bem vindo(a)! Esse desafio tem como objetivo avaliar a capacidade do candidato de construir uma API seguindo as melhores práticas e padrões de desenvolvimento.",
   "main": "index.js",
@@ -11,19 +11,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/vitor-msp/desafio-dev-jr-pl.git"
+    "url": "git+ssh://git@github.com:vitor-msp/routes-api.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/vitor-msp/desafio-dev-jr-pl/issues"
+    "url": "https://github.com/vitor-msp/routes-api/issues"
   },
-  "homepage": "https://gitlab.com/vitor-msp/desafio-dev-jr-pl#readme",
+  "homepage": "https://github.com/vitor-msp/routes-api#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.1",
     "mongoose": "^6.3.1",
+    "morgan": "^1.10.0",
     "path": "^0.12.7",
     "swagger-ui-express": "^4.3.0"
   },
@@ -32,6 +33,7 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/mongoose": "^5.11.97",
+    "@types/morgan": "^1.9.9",
     "@types/supertest": "^2.0.12",
     "@types/swagger-ui-express": "^4.1.3",
     "jest": "^27.5.1",
