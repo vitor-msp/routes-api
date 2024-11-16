@@ -16,8 +16,7 @@ phases:
   post_build:
     commands:
       - echo pushing $REPOSITORY_URI:$IMAGE_TAG to ECR
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - docker push $REPOSITORY_URI:latest
+      - docker push --all-tags $REPOSITORY_URI
       - printf '[{"name":"routes","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json 
 
 artifacts:
