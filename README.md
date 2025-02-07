@@ -1,19 +1,13 @@
-# Desafio Dev Jr/Pl
+# Routes API
 
-Dado o ([enunciado](./README-stat.md)), esta é a solução implementada por mim, **Vítor Mateus.**
-Optei por desenvolver a API em TypeScript pelo prévio conhecimento na stack e produtividade que ela oferece.
+API para obtenção das melhores rotas para transporte em um mapa (grafo).
+O enunciado deste desafio pode ser lido [aqui.](./README-stat.md)
+
+![demonstração do Routes App](demo.gif)
 
 - Acesse o frontend [aqui](https://github.com/vitor-msp/routes-app)
 
 - Acesse a infraestrutura [aqui](https://github.com/vitor-msp/routes-infra)
-
-## Modelagem OO
-
-### Diagrama de classes
-![Diagrama de classes](./imgs/class-diagram.jpg)
-
-### Diagrama de casos de uso
-![Diagrama de casos de uso](./imgs/usecase-diagram.jpg)
 
 ## Execução
 
